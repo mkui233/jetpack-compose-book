@@ -184,7 +184,7 @@ suspend fun PointerInputScope.detectTransformGestures(
 
 与 `Tranformable` 修饰符一样，`detectTransformGestures` 方法提供了两个参数。
 
-- **panZoomLock**(可选)： 当拖动或缩放手势发生时是否支持旋转
+- **panZoomLock**(可选)： 如果 panZoomLock 为真，则仅当在平移或缩放运动之前检测到旋转的触摸倾斜时才允许旋转。 如果没有，将检测到平移和缩放手势，但不会检测到旋转手势。 如果 panZoomLock 为 false，则一旦达到触摸倾斜，就会检测到所有三个手势
 - **onGesture**(必须)：当拖动、缩放或旋转手势发生时回调
 
 使用起来十分简单，我们仅需根据手势信息来更新状态就可以了。当我们处理旋转、缩放与拖动这类手势时，需要格外的注意 `Modifier` 调用次序，因为这会影响最终呈现效果。
@@ -208,7 +208,7 @@ fun TransformGestureDemo() {
             .background(Color.Green)
             .pointerInput(Unit) {
                 detectTransformGestures(
-                    panZoomLock = true, // 平移或放大时是否可以旋转
+                    panZoomLock = true, // 平移或缩放之后检测到旋转的倾斜时才不允许旋转
                     onGesture = { centroid: Offset, pan: Offset, zoom: Float, rotation: Float ->
                         offset += pan
                         scale *= zoom
